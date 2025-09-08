@@ -8,16 +8,7 @@ const User = require("./models/User");
 
 const createAdmin = async () => {
   try {
-    // Ensure DB name is always vasaiProperty
-    let mongoUri = process.env.MONGODB_URI;
-    if (!mongoUri.includes("vasaiProperty")) {
-      // If URI has no DB specified, append /vasaiProperty
-      if (mongoUri.endsWith("/")) {
-        mongoUri += "vasaiProperty";
-      } else {
-        mongoUri += "/vasaiProperty";
-      }
-    }
+    const mongoUri = process.env.MONGODB_URI;
 
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,

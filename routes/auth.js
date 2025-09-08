@@ -161,6 +161,9 @@ router.post('/login', validateUserLogin, async (req, res) => {
     });
   }
 });
+
+console.log("📢 Admin login route hit");
+
 // @route   POST /api/auth/admin/login
 // @desc    Admin login
 // @access  Public
