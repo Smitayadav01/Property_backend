@@ -161,7 +161,6 @@ router.post('/login', validateUserLogin, async (req, res) => {
     });
   }
 });
-
 // @route   POST /api/auth/admin/login
 // @desc    Admin login
 // @access  Public
@@ -170,8 +169,8 @@ router.post('/admin/login', validateUserLogin, async (req, res) => {
     const { phone, password } = req.body;
 
     // Find admin user by phone
-    const user = await User.findOne({ phone, role: 'admin' });
-    if (!user) {
+    const user = await User.findOne({ phone });
+    if (!user || user.role !== 'admin') {
       return res.status(401).json({
         success: false,
         message: 'Invalid admin credentials'
@@ -201,7 +200,18 @@ router.post('/admin/login', validateUserLogin, async (req, res) => {
     res.json({
       success: true,
       message: 'Admin login successful!',
-      data: { user, token }
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email || null,
+          role: user.role,
+          phone: user.phone,
+          createdAt: user.createdAt,
+          lastLogin: user.lastLogin
+        },
+        token
+      }
     });
 
   } catch (error) {
@@ -212,6 +222,7 @@ router.post('/admin/login', validateUserLogin, async (req, res) => {
     });
   }
 });
+
 
 // @route   GET /api/auth/me
 // @desc    Get current user profile

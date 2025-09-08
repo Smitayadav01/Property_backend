@@ -40,8 +40,8 @@ const validateUserRegistration = [
 // User login validation
 const validateUserLogin = [
   body('phone')
-    .matches(/^[\+]?[1-9][\d]{0,15}$/)
-    .withMessage('Please provide a valid phone number'),
+  .matches(/^(\+91[0-9]{10}|[6-9][0-9]{9})$/)
+  .withMessage('Please provide a valid phone number'),
   
   body('password')
     .notEmpty()

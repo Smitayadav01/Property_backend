@@ -22,12 +22,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // mobile apps / curl
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      console.warn(`❌ Blocked by CORS: ${origin}`);
+      return callback(null, false); // instead of throwing error
     }
   },
   credentials: true
@@ -47,10 +47,12 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+let mongoUri = process.env.MONGODB_URI;
+if (!mongoUri.includes("vasaiProperty")) {
+  mongoUri = mongoUri.endsWith("/") ? mongoUri + "vasaiProperty" : mongoUri + "/vasaiProperty";
+}
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+
 .then(() => console.log('✅ MongoDB connected successfully'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
