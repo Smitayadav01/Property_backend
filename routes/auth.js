@@ -204,7 +204,7 @@ router.post('/admin/login', validateUserLogin, async (req, res) => {
       success: true,
       message: 'Admin login successful!',
       data: {
-        user: {
+         admin: {
           id: user._id,
           name: user.name,
           email: user.email || null,
