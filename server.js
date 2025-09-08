@@ -33,6 +33,7 @@ app.use(cors({
   credentials: true
 }));
 
+
 // Trust the first proxy (Render sets X-Forwarded-For headers)
 app.set('trust proxy', 1);
 

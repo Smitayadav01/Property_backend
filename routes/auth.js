@@ -168,6 +168,7 @@ console.log("📢 Admin login route hit");
 // @desc    Admin login
 // @access  Public
 router.post('/admin/login', validateUserLogin, async (req, res) => {
+  console.log('Admin login body:', req.body);
   try {
     const { phone, password } = req.body;
 
